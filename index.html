@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unité d'Étude - Géopolitique et Relations Internationales</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #cbd5e1;
+            --success: #22c55e;
+            --error: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--text-main);
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border: 1px solid var(--border);
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Interactive Text & Tooltips */
+        .interactive-text {
+            font-size: 1.15rem;
+            margin-bottom: 16px;
+            line-height: 1.8;
+        }
+
+        .sentence-unit {
+            position: relative;
+            display: inline;
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .sentence-unit:hover {
+            background-color: #dbeafe;
+            color: var(--primary);
+        }
+
+        .tooltip {
+            visibility: hidden;
+            background-color: #1e293b;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 6px 10px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #1e293b transparent transparent transparent;
+        }
+
+        .sentence-unit:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-light);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Translation Cards */
+        .translation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .translation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .t-card {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            padding: 14px;
+            border-radius: 8px;
+        }
+
+        .t-card h3 {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Grammar & Engineering */
+        .grammar-point {
+            margin-bottom: 16px;
+        }
+
+        .grammar-point:last-child {
+            margin-bottom: 0;
+        }
+
+        .grammar-title {
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .formula-box {
+            background: #e2e8f0;
+            border-left: 4px solid var(--primary);
+            padding: 12px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 10px;
+        }
+
+        /* Exercises */
+        textarea.input-copy {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            resize: vertical;
+            font-size: 1rem;
+            margin-top: 8px;
+        }
+
+        .cloze-input {
+            border: none;
+            border-bottom: 2px solid var(--primary);
+            background: transparent;
+            font-size: 1rem;
+            padding: 2px 6px;
+            width: 140px;
+            text-align: center;
+            color: var(--text-main);
+            outline: none;
+        }
+
+        .cloze-input.correct {
+            border-color: var(--success);
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .cloze-input.incorrect {
+            border-color: var(--error);
+            color: var(--error);
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .quiz-btn {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            padding: 10px 14px;
+            border-radius: 6px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .quiz-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .quiz-btn.correct {
+            background: #dcfce7;
+            border-color: var(--success);
+            color: #166534;
+            font-weight: 600;
+        }
+
+        .quiz-btn.incorrect {
+            background: #fee2e2;
+            border-color: var(--error);
+            color: #991b1b;
+        }
+
+        .feedback-msg {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Media Recomms */
+        .media-list {
+            list-style: none;
+        }
+
+        .media-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .media-list li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <span class="badge">Niveau B2 • Géopolitique</span>
+        <h1>Les Enjeux de la Coopération Internationale</h1>
+        <p class="subtitle">Comprendre les défis diplomatiques et économiques du monde contemporain.</p>
+    </header>
+
+    <!-- 2. O Texto em Francês -->
+    <section class="card">
+        <h2>🌍 Le Texte en Français</h2>
+        <p style="margin-bottom: 16px; color: var(--text-muted); font-size: 0.9rem;">
+            Cliquez sur n'importe quelle phrase pour écouter un segment ou utilisez le bouton complet. Survolez pour voir la traduction.
+        </p>
+        
+        <div class="interactive-text" id="full-text-container">
+            <span class="sentence-unit" onclick="speakText('Dans un monde globalisé, les nations font face à des défis transnationaux complexes.')">
+                Dans un monde globalisé, les nations font face à des défis transnationaux complexes.
+                <span class="tooltip">Em um mundo globalizado, as nações enfrentam desafios transnacionais complexos.</span>
+            </span>
+            <span class="sentence-unit" onclick="speakText('La diplomatie multilatérale demeure l’outil privilégié pour maintenir la paix et stimuler le développement durable.')">
+                La diplomatie multilatérale demeure l’outil privilégié pour maintenir la paix et stimuler le développement durable.
+                <span class="tooltip">A diplomacia multilateral continua sendo a ferramenta privilegiada para manter a paz e estimular o desenvolvimento sustentável.</span>
+            </span>
+            <span class="sentence-unit" onclick="speakText('Cependant, les tensions géopolitiques exigent des compromis constants entre les grandes puissances.')">
+                Cependant, les tensions géopolitiques exigent des compromis constants entre les grandes puissances.
+                <span class="tooltip">No entanto, as tensões geopolíticas exigem compromissos constantes entre as grandes potências.</span>
+            </span>
+        </div>
+
+        <button class="btn" onclick="speakFullText()">
+            🗣️ Écouter le texte complet
+        </button>
+    </section>
+
+    <!-- 3. Cards de Tradução Cruzada -->
+    <section class="card">
+        <h2>🔄 Cards de Tradução Cruzada</h2>
+        <div class="translation-grid">
+            <div class="t-card">
+                <h3>Français ➡️ Português</h3>
+                <p><strong>"La diplomatie multilatérale demeure l’outil privilégié..."</strong><br>A diplomacia multilateral permanece a ferramenta privilegiada...</p>
+            </div>
+            <div class="t-card">
+                <h3>Português ➡️ Français</h3>
+                <p><strong>"As nações enfrentam desafios complexos."</strong><br><em>Les nations font face à des défis complexes.</em></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Destaque Gramatical e Engenharia de Frases -->
+    <section class="card">
+        <h2>💡 Gramática & Engenharia de Frases</h2>
+        
+        <div class="grammar-point">
+            <div class="grammar-title">1. A expressão « Faire face à »</div>
+            <p>Usada para indicar que alguém ou um grupo está lidando diretamente com um desafio ou obstáculo (equivalente a "enfrentar" ou "fazer frente a").</p>
+        </div>
+
+        <div class="grammar-point" style="margin-top: 16px;">
+            <div class="grammar-title">2. O Verbo « Demeurer »</div>
+            <p>Significa "permanecer" ou "continuar sendo". Funciona como verbo de estado, similar ao <em>rester</em> em contextos formais.</p>
+        </div>
+
+        <div class="formula-box">
+            <strong>Escreva Igual (Engenharia de Frases):</strong><br>
+            <em>Original:</em> Les nations font face à des défis transnationaux.<br>
+            <em>Seu molde:</em> [Sujeito] [font face à] [Artigo] [Substantivo] [Adjetivo].<br>
+            <em>Exemplo trocado:</em> Les entreprises font face à des crises économiques.
+        </div>
+    </section>
+
+    <!-- 5. Exercício 1: Cópia e Memorização -->
+    <section class="card">
+        <h2>✍️ Exercício 1: Cópia e Memorização</h2>
+        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 8px;">
+            Copie a frase abaixo prestando atenção nos acentos e na ortografia francesa:
+        </p>
+        <p style="font-style: italic; font-weight: 500; margin-bottom: 8px;">"La diplomatie multilatérale demeure l’outil privilégié de la paix."</p>
+        <textarea class="input-copy" placeholder="Digite a frase aqui..."></textarea>
+    </section>
+
+    <!-- 6. Exercício 2: Preenchimento de Lacunas -->
+    <section class="card">
+        <h2>🧩 Exercício 2: Cloze Test (Lacunas)</h2>
+        <p style="margin-bottom: 12px; font-size: 0.95rem;">Complete a frase com a palavra correta do texto:</p>
+        <p style="font-size: 1.05rem;">
+            Dans un monde globalisé, les nations font <input type="text" class="cloze-input" id="cloze1" placeholder="resposta" oninput="checkCloze(this, 'face')"> à des défis.
+        </p>
+        <div id="cloze-feedback" class="feedback-msg"></div>
+    </section>
+
+    <!-- 7. Exercício 3: Quiz de Compreensão -->
+    <section class="card">
+        <h2>❓ Exercício 3: Quiz de Compreensão</h2>
+        <p style="margin-bottom: 10px; font-weight: 500;">Quel est l'outil privilégié pour maintenir la paix selon le texte ?</p>
+        <div class="quiz-options">
+            <button class="quiz-btn" onclick="checkQuiz(this, false)">A) L'isolement économique national.</button>
+            <button class="quiz-btn" onclick="checkQuiz(this, true)">B) La diplomatie multilatérale.</button>
+            <button class="quiz-btn" onclick="checkQuiz(this, false)">C) La compétition technologique.</button>
+        </div>
+        <div id="quiz-feedback" class="feedback-msg"></div>
+    </section>
+
+    <!-- 8. Exercício 4: Teste Gramatical Aplicado -->
+    <section class="card">
+        <h2>🎯 Exercício 4: Teste Gramatical Aplicado</h2>
+        <p style="margin-bottom: 10px; font-weight: 500;">Como completar corretamente a expressão "faire ... à des défis"?</p>
+        <div class="quiz-options">
+            <button class="quiz-btn" onclick="checkGrammar(this, false)">A) front</button>
+            <button class="quiz-btn" onclick="checkGrammar(this, true)">B) face</button>
+            <button class="quiz-btn" onclick="checkGrammar(this, false)">C) tête</button>
+        </div>
+        <div id="grammar-feedback" class="feedback-msg"></div>
+    </section>
+
+    <!-- 9. Recomendações de Mídia Complementar -->
+    <section class="card">
+        <h2>🎧 Recomendações de Mídia Complementar</h2>
+        <ul class="media-list">
+            <li>🎬 <strong>YouTube / Géopolitique:</strong> Busque por <em>"Le Dessous des Cartes - ARTE"</em> para análises geopolíticas visuais em francês.</li>
+            <li>🎵 <strong>Podcast sugerido:</strong> Ouça o podcast <em>"Géopolitique"</em> da France Inter para imersão auditiva avançada.</li>
+        </ul>
+    </section>
+</div>
+
+<script>
+    // Web Speech API Integration
+    function speakText(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'fr-FR';
+            utterance.rate = 0.9;
+            window.speechSynthesis.speak(utterance);
+        } else {
+            alert("Votre navigateur ne supporte pas la synthèse vocale.");
+        }
+    }
+
+    function speakFullText() {
+        const fullText = "Dans un monde globalisé, les nations font face à des défis transnationaux complexes. La diplomatie multilatérale demeure l’outil privilégié pour maintenir la paix et stimuler le développement durable. Cependant, les tensions géopolitiques exigent des compromis constants entre les grandes puissances.";
+        speakText(fullText);
+    }
+
+    // Cloze Test Validation
+    function checkCloze(inputElement, correctWord) {
+        const val = inputElement.value.trim().toLowerCase();
+        const feedback = document.getElementById('cloze-feedback');
+        if (val === correctWord.toLowerCase()) {
+            inputElement.classList.add('correct');
+            inputElement.classList.remove('incorrect');
+            feedback.style.color = 'var(--success)';
+            feedback.textContent = 'Parfait ! C\'est exact.';
+        } else {
+            inputElement.classList.remove('correct');
+            if(val.length > 0) {
+                inputElement.classList.add('incorrect');
+                feedback.style.color = 'var(--error)';
+                feedback.textContent = 'Presque... Essayez encore.';
+            } else {
+                inputElement.classList.remove('incorrect');
+                feedback.textContent = '';
+            }
+        }
+    }
+
+    // Quiz Validation
+    function checkQuiz(button, isCorrect) {
+        const parent = button.parentElement;
+        const buttons = parent.querySelectorAll('.quiz-btn');
+        const feedback = document.getElementById('quiz-feedback');
+
+        buttons.forEach(btn => {
+            btn.disabled = true;
+            if(btn === button) {
+                btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+            }
+        });
+
+        if(isCorrect) {
+            feedback.style.color = 'var(--success)';
+            feedback.textContent = 'Excellent ! Bonne réponse.';
+        } else {
+            feedback.style.color = 'var(--error)';
+            feedback.textContent = 'Incorrect. La bonne option est la B.';
+        }
+    }
+
+    // Grammar Validation
+    function checkGrammar(button, isCorrect) {
+        const parent = button.parentElement;
+        const buttons = parent.querySelectorAll('.quiz-btn');
+        const feedback = document.getElementById('grammar-feedback');
+
+        buttons.forEach(btn => {
+            btn.disabled = true;
+            if(btn === button) {
+                btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+            }
+        });
+
+        if(isCorrect) {
+            feedback.style.color = 'var(--success)';
+            feedback.textContent = 'Bravo ! L’expression correcte est « faire face à » (enfrentar).';
+        } else {
+            feedback.style.color = 'var(--error)';
+            feedback.textContent = 'Faux. Souvenez-vous de la structure fixe « faire face à ».';
+        }
+    }
+</script>
+
+</body>
+</html>
