@@ -533,6 +533,7 @@
     ];
 
     let currentIndex = 0;
+    let cachedUtterance = null; // Cache global para evitar perda de referência da Web Speech API
 
     function renderLesson(index) {
         const l = lessons[index];
@@ -612,15 +613,16 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // Web Speech API Blindada e com Velocidade Natural Ajustada
     function speakText(text) {
         if ('speechSynthesis' in window) {
             window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'fr-FR';
-            utterance.rate = 0.9;
-            window.speechSynthesis.speak(utterance);
+            cachedUtterance = new SpeechSynthesisUtterance(text);
+            cachedUtterance.lang = 'fr-FR';
+            cachedUtterance.rate = 1.0; // Velocidade natural e fluida
+            window.speechSynthesis.speak(cachedUtterance);
         } else {
-            alert("Synthèse vocale non supportée.");
+            alert("Synthèse vocale non supportée par votre navigateur.");
         }
     }
 
